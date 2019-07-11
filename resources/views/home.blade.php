@@ -15,6 +15,7 @@
                     @endif
 
                     You are logged in!
+                    <div id="example"></div>
                 </div>
             </div>
         </div>
