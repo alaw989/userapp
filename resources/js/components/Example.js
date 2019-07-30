@@ -9,12 +9,18 @@ class Example extends Component {
     }
 
     componentDidMount() {
-        axios.get('/api/user')
-        .then(response => {
-            console.log(response.data);
-        });
-      }
-
+        axios
+            .get("/api/user")
+            .then(response => {
+                console.log(response.data);
+                return axios.get(
+                    "http://54.72.28.201:80/1.0/population/1980/Brazil/18/"
+                );
+            })
+            .then(response => {
+                console.log(response);
+            });
+    }
     render() {
         return <div className="card-header">Example Component</div>;
     }

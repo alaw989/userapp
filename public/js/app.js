@@ -61583,8 +61583,11 @@ function (_Component) {
   _createClass(Example, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/user').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/api/user").then(function (response) {
         console.log(response.data);
+        return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("http://54.72.28.201:80/1.0/population/1980/Brazil/18/");
+      }).then(function (response) {
+        console.log(response);
       });
     }
   }, {

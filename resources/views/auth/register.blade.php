@@ -54,7 +54,7 @@
                         <div class="form-group row">
                             <label for="state" class="col-md-4 col-form-label text-md-right">{{ __('State') }}</label>
                             <div class="col-md-6">
-                                <select class="form-control">
+                                <select name="state" class="form-control">
                                     <option value="AL">Alabama</option>
                                     <option value="AK">Alaska</option>
                                     <option value="AZ">Arizona</option>
@@ -117,8 +117,8 @@
                         <div class="form-group row">
                             <label for="country" class="col-md-4 col-form-label text-md-right">{{ __('Country') }}</label>
                             <div class="col-md-6">
-                                <select class="form-control">
-                                <option value="AF">Afghanistan</option>
+                                <select name="country" class="form-control">
+                                    <option value="AF">Afghanistan</option>
                                     <option value="AX">Åland Islands</option>
                                     <option value="AL">Albania</option>
                                     <option value="DZ">Algeria</option>
@@ -378,7 +378,7 @@
                         <div class="form-group row">
                             <label for="dateofbirth" class="col-md-4 col-form-label text-md-right">{{ __('Date of Birth') }}</label>
                             <div class="col-md-6">
-                                <input id="dateofbirth" type="dateofbirth" class="date form-control @error('dateofbirth') is-invalid @enderror" name="dateofbirth" value="{{ old('dateofbirth') }}" required autocomplete="dateofbirth">
+                                <input id="dateofbirth" type="dateofbirth" class="date form-control @error('dateofbirth') is-invalid @enderror" name="dateofbirth" value="{{ old('dateofbirth') }}" placeholder="MM/DD/YYYY" required autocomplete="dateofbirth">
 
                                 @error('dateofbirth')
                                     <span class="invalid-feedback" role="alert">

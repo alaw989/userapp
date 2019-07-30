@@ -77,6 +77,8 @@
         </main>
     </div>
     <script src="/js/app.js"></script>
-    <script> $('.date').mask('00/00/0000');</script>
+    <script> 
+        $('.date').mask('00/00/0000');
+    </script>
 </body>
 </html>
