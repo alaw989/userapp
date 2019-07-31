@@ -70,7 +70,8 @@ class RegisterController extends Controller
             'city' => $data['city'],
             'state' => $data['state'],
             'country' => $data['country'],
-            'dateofbirth' => $data['dateofbirth']
+            'dateofbirth' => $data['dateofbirth'],
+            'gender' => $data['gender']
         ]);
     }
 }

@@ -61584,10 +61584,14 @@ function (_Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/api/user").then(function (response) {
+        var proxy_url = 'https://cors-anywhere.herokuapp.com/';
         console.log(response.data);
-        return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("http://54.72.28.201:80/1.0/population/1980/Brazil/18/");
+        var age = response.data.dateofbirth.slice(6);
+        var url = "http://54.72.28.201:80/1.0/population/" + age + "/Brazil/18/";
+        console.log(age);
+        return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(proxy_url + url);
       }).then(function (response) {
-        console.log(response);
+        console.log(response.data);
       });
     }
   }, {

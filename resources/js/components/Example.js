@@ -9,16 +9,23 @@ class Example extends Component {
     }
 
     componentDidMount() {
+
+
         axios
             .get("/api/user")
             .then(response => {
+                const proxy_url = 'https://cors-anywhere.herokuapp.com/'; 
+                
                 console.log(response.data);
+                const age = response.data.dateofbirth.slice(6);
+                const url = "http://54.72.28.201:80/1.0/population/" + age + "/Brazil/18/";
+                console.log(age);
                 return axios.get(
-                    "http://54.72.28.201:80/1.0/population/1980/Brazil/18/"
+                    proxy_url + url
                 );
             })
             .then(response => {
-                console.log(response);
+                console.log(response.data);
             });
     }
     render() {
