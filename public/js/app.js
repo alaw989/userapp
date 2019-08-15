@@ -112148,44 +112148,36 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var AgeChart = function AgeChart() {
+var AgeChart = function AgeChart(props) {
+  var females = props.data[0].females;
+  var males = props.data[0].males;
+  console.log(props.data[0].females);
   var list = [{
-    name: "Page A",
-    pv: 2400,
-    amt: 2400
+    name: "Females",
+    pv: females,
+    amt: females
   }, {
-    name: "Page B",
-    pv: 1398,
-    amt: 2210
-  }, {
-    name: "Page C",
-    pv: 9800,
-    amt: 2290
-  }, {
-    name: "Page D",
-    pv: 3908,
-    amt: 2000
-  }, {
-    name: "Page E",
-    pv: 4800,
-    amt: 2181
-  }, {
-    name: "Page F",
-    pv: 3800,
-    amt: 2500
-  }, {
-    name: "Page G",
-    pv: 4300,
-    amt: 2100
+    name: "Males",
+    pv: males,
+    amt: males
   }];
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["LineChart"], {
-    width: 400,
-    height: 400,
-    data: list
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Line"], {
-    type: "monotone",
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["BarChart"], {
+    width: 600,
+    height: 300,
+    data: list,
+    margin: {
+      top: 5,
+      right: 30,
+      left: 20,
+      bottom: 5
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["CartesianGrid"], {
+    strokeDasharray: "3 3"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["XAxis"], {
+    dataKey: "name"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["YAxis"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Tooltip"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Legend"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Bar"], {
     dataKey: "pv",
-    stroke: "#8884d8"
+    fill: "#8884d8"
   }));
 };
 
@@ -112243,31 +112235,41 @@ function (_Component) {
     _classCallCheck(this, Example);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Example).call(this, props));
-    _this.state = {};
+    _this.state = {
+      userInfo: [{
+        females: 1000,
+        males: 1000
+      }]
+    };
     return _this;
   }
 
   _createClass(Example, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      var _this2 = this;
+
+      console.log(this.state.userInfo);
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/api/user").then(function (response) {
         var proxy_url = 'https://cors-anywhere.herokuapp.com/';
-        console.log(response.data);
         var dateofBirth = response.data.dateofbirth.slice(6);
         var country = response.data.country;
         var currentDate = new Date();
         var age = currentDate.getFullYear() - dateofBirth;
-        console.log(age);
         var url = "http://54.72.28.201:80/1.0/population/" + dateofBirth + "/" + country + "/" + age + "/";
         return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(proxy_url + url);
       }).then(function (response) {
-        console.log(response.data);
+        _this2.setState({
+          userInfo: response.data
+        });
       });
     }
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AgeChart__WEBPACK_IMPORTED_MODULE_3__["default"], null);
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AgeChart__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        data: this.state.userInfo
+      });
     }
   }]);
 
