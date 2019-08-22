@@ -2,49 +2,66 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
 import AgeChart from "./AgeChart";
+import UserInfo from "./UserInfo";
 
 class Example extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userInfo : [
+            userInfo: [
                 {
-                    females : 1000,
-                    males : 1000
+                    name: "Username"
+                }
+            ],
+            popInfo: [
+                {
+                    females: 1000,
+                    males: 1000
                 }
             ]
-        }
+        };
     }
-    
 
     componentDidMount() {
-        console.log(this.state.userInfo);
         axios
             .get("/api/user")
             .then(response => {
-                const proxy_url = 'https://cors-anywhere.herokuapp.com/'; 
-            
+                console.log(response.data);
+                const proxy_url = "https://cors-anywhere.herokuapp.com/";
+
                 const dateofBirth = response.data.dateofbirth.slice(6);
                 const country = response.data.country;
-                const currentDate = new Date;
-                const age = currentDate.getFullYear() - dateofBirth
+                const currentDate = new Date();
+                const age = currentDate.getFullYear() - dateofBirth;
+
+                const url =
+                    "http://54.72.28.201:80/1.0/population/" + dateofBirth + "/" + country + "/" + age + "/";
                 
-                const url = "http://54.72.28.201:80/1.0/population/" + dateofBirth + "/" + country + "/" + age + "/";
-               
-                return axios.get(
-                    proxy_url + url
-                );
+                this.setState({
+                    userInfo: response.data
+                });
+
+                return axios.get(proxy_url + url);
             })
             .then(response => {
                 this.setState({
-                    userInfo : response.data
+                    popInfo: response.data
                 });
             });
     }
     render() {
         return (
-            <AgeChart data={this.state.userInfo} />
-        )
+            <div className="container-fluid">
+                <div className="row">
+                    <div className="col-sm-3">
+                        <UserInfo data={this.state.userInfo} />
+                    </div>
+                    <div className="col-sm-9">
+                        <AgeChart data={this.state.popInfo} />
+                    </div>
+                </div>
+            </div>
+        );
     }
 }
 

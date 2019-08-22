@@ -8,35 +8,37 @@ import {
     Tooltip,
     Legend
 } from "recharts";
+import { PieChart, Pie } from "recharts";
 
 const AgeChart = props => {
     const females = props.data[0].females;
     const males = props.data[0].males;
-    console.log(props.data[0].females);
 
-
-
-   
 
     const list = [
         { name: "Females", pv: females, amt: females },
         { name: "Males", pv: males, amt: males }
     ];
 
+    const data01 = [
+        { name: "Males", value: males },
+        { name: "Females", value: females }
+    ];
+
     return (
-        <BarChart
-            width={600}
-            height={300}
-            data={list}
-            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-        >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
+        <PieChart width={400} height={400}>
+            <Pie
+                dataKey="value"
+                isAnimationActive={false}
+                data={data01}
+                cx={200}
+                cy={200}
+                outerRadius={80}
+                fill="#8884d8"
+                label
+            />
             <Tooltip />
-            <Legend />
-            <Bar dataKey="pv" fill="#8884d8" />
-        </BarChart>
+        </PieChart>
     );
 };
 

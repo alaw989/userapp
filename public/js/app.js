@@ -112148,10 +112148,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var AgeChart = function AgeChart(props) {
   var females = props.data[0].females;
   var males = props.data[0].males;
-  console.log(props.data[0].females);
   var list = [{
     name: "Females",
     pv: females,
@@ -112161,24 +112161,26 @@ var AgeChart = function AgeChart(props) {
     pv: males,
     amt: males
   }];
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["BarChart"], {
-    width: 600,
-    height: 300,
-    data: list,
-    margin: {
-      top: 5,
-      right: 30,
-      left: 20,
-      bottom: 5
-    }
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["CartesianGrid"], {
-    strokeDasharray: "3 3"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["XAxis"], {
-    dataKey: "name"
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["YAxis"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Tooltip"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Legend"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Bar"], {
-    dataKey: "pv",
-    fill: "#8884d8"
-  }));
+  var data01 = [{
+    name: "Males",
+    value: males
+  }, {
+    name: "Females",
+    value: females
+  }];
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["PieChart"], {
+    width: 400,
+    height: 400
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Pie"], {
+    dataKey: "value",
+    isAnimationActive: false,
+    data: data01,
+    cx: 200,
+    cy: 200,
+    outerRadius: 80,
+    fill: "#8884d8",
+    label: true
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Tooltip"], null));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (AgeChart);
@@ -112201,6 +112203,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _AgeChart__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AgeChart */ "./resources/js/components/AgeChart.js");
+/* harmony import */ var _UserInfo__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./UserInfo */ "./resources/js/components/UserInfo.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -112224,6 +112227,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var Example =
 /*#__PURE__*/
 function (_Component) {
@@ -112237,6 +112241,9 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Example).call(this, props));
     _this.state = {
       userInfo: [{
+        name: "Username"
+      }],
+      popInfo: [{
         females: 1000,
         males: 1000
       }]
@@ -112249,27 +112256,42 @@ function (_Component) {
     value: function componentDidMount() {
       var _this2 = this;
 
-      console.log(this.state.userInfo);
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/api/user").then(function (response) {
-        var proxy_url = 'https://cors-anywhere.herokuapp.com/';
+        console.log(response.data);
+        var proxy_url = "https://cors-anywhere.herokuapp.com/";
         var dateofBirth = response.data.dateofbirth.slice(6);
         var country = response.data.country;
         var currentDate = new Date();
         var age = currentDate.getFullYear() - dateofBirth;
         var url = "http://54.72.28.201:80/1.0/population/" + dateofBirth + "/" + country + "/" + age + "/";
+
+        _this2.setState({
+          userInfo: response.data
+        });
+
         return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(proxy_url + url);
       }).then(function (response) {
         _this2.setState({
-          userInfo: response.data
+          popInfo: response.data
         });
       });
     }
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AgeChart__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "container-fluid"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "row"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-sm-3"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UserInfo__WEBPACK_IMPORTED_MODULE_4__["default"], {
         data: this.state.userInfo
-      });
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-sm-9"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AgeChart__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        data: this.state.popInfo
+      }))));
     }
   }]);
 
@@ -112281,6 +112303,27 @@ function (_Component) {
 if (document.getElementById("example")) {
   react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Example, null), document.getElementById("example"));
 }
+
+/***/ }),
+
+/***/ "./resources/js/components/UserInfo.js":
+/*!*********************************************!*\
+  !*** ./resources/js/components/UserInfo.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var UserInfo = function UserInfo(props) {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "hey");
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (UserInfo);
 
 /***/ }),
 
