@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import axios from "axios";
 import AgeChart from "./AgeChart";
 import UserInfo from "./UserInfo";
+import UserOverview from "./UserOverview";
+import WorldChart from "./WorldChart";
 
 class Example extends Component {
     constructor(props) {
@@ -16,48 +18,30 @@ class Example extends Component {
             popInfo: [
                 {
                     females: 1000,
-                    males: 1000
+                    males: 1000,
+                    year: 1987
                 }
             ]
         };
     }
 
     componentDidMount() {
-        axios
-            .get("/api/user")
-            .then(response => {
-                console.log(response.data);
-                const proxy_url = "https://cors-anywhere.herokuapp.com/";
 
-                const dateofBirth = response.data.dateofbirth.slice(6);
-                const country = response.data.country;
-                const currentDate = new Date();
-                const age = currentDate.getFullYear() - dateofBirth;
-
-                const url =
-                    "http://54.72.28.201:80/1.0/population/" + dateofBirth + "/" + country + "/" + age + "/";
-                
-                this.setState({
-                    userInfo: response.data
-                });
-
-                return axios.get(proxy_url + url);
-            })
-            .then(response => {
-                this.setState({
-                    popInfo: response.data
-                });
-            });
     }
     render() {
         return (
-            <div className="container-fluid">
+            <div className="container-fluid body-wrap">
                 <div className="row">
-                    <div className="col-sm-3">
+                    <div className="col-sm-2 sidebar">
                         <UserInfo data={this.state.userInfo} />
+                        <div className="button-container">
+                            <div className="button">Population Statistics</div>
+                        </div>
                     </div>
-                    <div className="col-sm-9">
-                        <AgeChart data={this.state.popInfo} />
+                    <div className="col-sm-10 view"> 
+                        <UserOverview data={this.state.popInfo} />
+                        {/* <WorldChart data={this.state.popInfo} /> */}
+                        <AgeChart  />
                     </div>
                 </div>
             </div>

@@ -112145,44 +112145,59 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/index.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
 
-var AgeChart = function AgeChart(props) {
-  var females = props.data[0].females;
-  var males = props.data[0].males;
-  var list = [{
-    name: "Females",
-    pv: females,
-    amt: females
-  }, {
-    name: "Males",
-    pv: males,
-    amt: males
-  }];
-  var data01 = [{
-    name: "Males",
-    value: males
-  }, {
-    name: "Females",
-    value: females
-  }];
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["PieChart"], {
-    width: 400,
-    height: 400
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Pie"], {
-    dataKey: "value",
-    isAnimationActive: false,
-    data: data01,
-    cx: 200,
-    cy: 200,
-    outerRadius: 80,
-    fill: "#8884d8",
-    label: true
-  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Tooltip"], null));
-};
+function AgeChart() {
+  // const females = props.data[0].females;
+  // const males = props.data[0].males;
+  // const year = props.data[0].year;
+  // const country = props.data[0].country;
+  // const age = props.data[0].age;
+  // const list = [
+  //     { name: "Females", pv: females, amt: females },
+  //     { name: "Males", pv: males, amt: males }
+  // ];
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+      _useState2 = _slicedToArray(_useState, 2),
+      userInfo = _useState2[0],
+      setInfo = _useState2[1];
 
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    axios.get("/api/user").then(function (response) {
+      var proxy_url = "https://cors-anywhere.herokuapp.com/";
+      var dateofBirth = response.data.dateofbirth.slice(6);
+      var country = response.data.country;
+      var currentDate = new Date();
+      var age = currentDate.getFullYear() - dateofBirth;
+      var url = "http://54.72.28.201:80/1.0/population/" + dateofBirth + "/" + 'aged' + "/" + age + "/";
+      var userInfo = response.data;
+      console.log(userInfo);
+      setInfo(userInfo);
+      return axios.get(proxy_url + url);
+    }).then(function (response) {
+      var popInfo = response.data;
+      return popInfo;
+    });
+  });
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "graph-container"
+  }, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    onClick: function onClick() {
+      return setCount(count + 1);
+    }
+  }));
+}
+
+;
 /* harmony default export */ __webpack_exports__["default"] = (AgeChart);
 
 /***/ }),
@@ -112204,6 +112219,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _AgeChart__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AgeChart */ "./resources/js/components/AgeChart.js");
 /* harmony import */ var _UserInfo__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./UserInfo */ "./resources/js/components/UserInfo.js");
+/* harmony import */ var _UserOverview__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./UserOverview */ "./resources/js/components/UserOverview.js");
+/* harmony import */ var _WorldChart__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./WorldChart */ "./resources/js/components/WorldChart.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -112228,6 +112245,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
+
 var Example =
 /*#__PURE__*/
 function (_Component) {
@@ -112245,7 +112264,8 @@ function (_Component) {
       }],
       popInfo: [{
         females: 1000,
-        males: 1000
+        males: 1000,
+        year: 1987
       }]
     };
     return _this;
@@ -112253,45 +112273,27 @@ function (_Component) {
 
   _createClass(Example, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get("/api/user").then(function (response) {
-        console.log(response.data);
-        var proxy_url = "https://cors-anywhere.herokuapp.com/";
-        var dateofBirth = response.data.dateofbirth.slice(6);
-        var country = response.data.country;
-        var currentDate = new Date();
-        var age = currentDate.getFullYear() - dateofBirth;
-        var url = "http://54.72.28.201:80/1.0/population/" + dateofBirth + "/" + country + "/" + age + "/";
-
-        _this2.setState({
-          userInfo: response.data
-        });
-
-        return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(proxy_url + url);
-      }).then(function (response) {
-        _this2.setState({
-          popInfo: response.data
-        });
-      });
-    }
+    value: function componentDidMount() {}
   }, {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "container-fluid"
+        className: "container-fluid body-wrap"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-sm-3"
+        className: "col-sm-2 sidebar"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UserInfo__WEBPACK_IMPORTED_MODULE_4__["default"], {
         data: this.state.userInfo
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "col-sm-9"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AgeChart__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button-container"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "button"
+      }, "Population Statistics"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "col-sm-10 view"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_UserOverview__WEBPACK_IMPORTED_MODULE_5__["default"], {
         data: this.state.popInfo
-      }))));
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AgeChart__WEBPACK_IMPORTED_MODULE_3__["default"], null))));
     }
   }]);
 
@@ -112320,10 +112322,104 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var UserInfo = function UserInfo(props) {
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "hey");
+  var name = props.data.name;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "user-container"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+    src: "https://picsum.photos/150"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, name));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (UserInfo);
+
+/***/ }),
+
+/***/ "./resources/js/components/UserOverview.js":
+/*!*************************************************!*\
+  !*** ./resources/js/components/UserOverview.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+var UserOverview = function UserOverview(props) {
+  console.log(props.data[0].year);
+  var age = props.data[0].age;
+  var country = props.data[0].country;
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "overview-container"
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "module"
+  }, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, age), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Age")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "module"
+  }, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, country), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Country")));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (UserOverview);
+
+/***/ }),
+
+/***/ "./resources/js/components/WorldChart.js":
+/*!***********************************************!*\
+  !*** ./resources/js/components/WorldChart.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/index.js");
+
+
+
+var WorldChart = function WorldChart(props) {
+  var females = props.data[0].females;
+  var males = props.data[0].males;
+  var year = props.data[0].year;
+  var country = props.data[0].country;
+  var age = props.data[0].age;
+  var list = [{
+    name: "Females",
+    pv: females,
+    amt: females
+  }, {
+    name: "Males",
+    pv: males,
+    amt: males
+  }];
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "graph-container"
+  }, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, country, " population (male vs. female) in ", year, " for all people age ", age), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["LineChart"], {
+    width: 300,
+    height: 300,
+    data: list,
+    margin: {
+      top: 5,
+      right: 30,
+      left: 20,
+      bottom: 5
+    }
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["CartesianGrid"], {
+    strokeDasharray: "1 1"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["XAxis"], {
+    dataKey: "name",
+    stroke: "#fff"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["YAxis"], {
+    stroke: "#fff"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Tooltip"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Line"], {
+    dataKey: "pv",
+    fill: "#8884d8"
+  })));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (WorldChart);
 
 /***/ }),
 
