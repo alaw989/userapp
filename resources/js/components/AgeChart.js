@@ -19,11 +19,10 @@ function AgeChart() {
             .then(response => {
                 const proxy_url = "https://cors-anywhere.herokuapp.com/";
                 const dateofBirth = response.data.dateofbirth.slice(6);
-                const country = response.data.country;  
                 const currentDate = new Date();
                 const age = currentDate.getFullYear() - dateofBirth;
                 const url =
-                    "http://54.72.28.201:80/1.0/population/" + 
+                    "http://54.72.28.201:80/1.0/population/" +
                     dateofBirth +
                     "/" +
                     "aged" +
@@ -35,25 +34,24 @@ function AgeChart() {
                 return axios.get(proxy_url + url);
             })
             .then(response => {
-                console.log(response.data);
+               
                 const finalObj = response.data.map(x => ({
-                    country: x.country, uv: x.females, pv: x.males
+                    country: x.country,
+                    uv: x.females,
+                    pv: x.males
                 }));
-
+                console.log(finalObj);
                 setpopInfo(finalObj);
-            });     
+            });
     }, []);
 
-    
     // const males = props.data[0].males;
-     const popAge = userInfo.dateofbirth;
-     const year = userInfo.year;
-     const country = userInfo.country;
-     const age = userInfo.age;
+    const popAge = userInfo.dateofbirth;
+    const year = userInfo.year;
+    const country = userInfo.country;
+    const age = userInfo.age;
 
-     console.log(popInfo);
 
-   
 
     // const list = [
     //     { name: "Females", pv: females, amt: females },

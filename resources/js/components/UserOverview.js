@@ -1,25 +1,37 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 
-const UserOverview = props => {
-   
-    const age = props.data[0].age;
+function UserOverview() {
+    const [[overview], setOverview] = useState({
+        age: "",
+        country: ""
+    });
 
-    const country = props.data[0].country;
+    useEffect(() => {
+        axios.get("/api/user").then(response => {
+            const dateofBirth = response.data.dateofbirth.slice(6);
+            const currentDate = new Date();
+            const age = currentDate.getFullYear() - dateofBirth;
+            console.log(response.data);
 
+            setOverview({
+                age: age,
+                country: response.data.country
+            });
+        });
+    }, []);
+
+// const modules = overview.map(x => {
+//     <div className="module">
+//         {x.age}
+//     </div>
+// });
+
+console.log(overview);
     return (
         <div className="overview-container">
-            <div className="module">
-                {" "}
-                <h1>{age}</h1>
-                <p>Age</p>
-            </div>
-            <div className="module">
-                {" "}
-                <h1>{country}</h1>
-                <p>Country</p>
-            </div>
+            {/* {modules} */}
         </div>
     );
-};
+}
 
 export default UserOverview;

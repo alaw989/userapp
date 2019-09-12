@@ -112171,14 +112171,12 @@ function AgeChart() {
     axios.get("/api/user").then(function (response) {
       var proxy_url = "https://cors-anywhere.herokuapp.com/";
       var dateofBirth = response.data.dateofbirth.slice(6);
-      var country = response.data.country;
       var currentDate = new Date();
       var age = currentDate.getFullYear() - dateofBirth;
       var url = "http://54.72.28.201:80/1.0/population/" + dateofBirth + "/" + "aged" + "/" + age + "/";
       setInfo(response.data);
       return axios.get(proxy_url + url);
     }).then(function (response) {
-      console.log(response.data);
       var finalObj = response.data.map(function (x) {
         return {
           country: x.country,
@@ -112186,6 +112184,7 @@ function AgeChart() {
           pv: x.males
         };
       });
+      console.log(finalObj);
       setpopInfo(finalObj);
     });
   }, []); // const males = props.data[0].males;
@@ -112193,8 +112192,7 @@ function AgeChart() {
   var popAge = userInfo.dateofbirth;
   var year = userInfo.year;
   var country = userInfo.country;
-  var age = userInfo.age;
-  console.log(popInfo); // const list = [
+  var age = userInfo.age; // const list = [
   //     { name: "Females", pv: females, amt: females },
   //     { name: "Males", pv: males, amt: males }
   // ];
@@ -112371,19 +112369,48 @@ var UserInfo = function UserInfo(props) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
-var UserOverview = function UserOverview(props) {
-  var age = props.data[0].age;
-  var country = props.data[0].country;
+
+function UserOverview() {
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({
+    age: "",
+    country: ""
+  }),
+      _useState2 = _slicedToArray(_useState, 2),
+      _useState2$ = _slicedToArray(_useState2[0], 1),
+      overview = _useState2$[0],
+      setOverview = _useState2[1];
+
+  Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
+    axios.get("/api/user").then(function (response) {
+      var dateofBirth = response.data.dateofbirth.slice(6);
+      var currentDate = new Date();
+      var age = currentDate.getFullYear() - dateofBirth;
+      console.log(response.data);
+      setOverview({
+        age: age,
+        country: response.data.country
+      });
+    });
+  }, []); // const modules = overview.map(x => {
+  //     <div className="module">
+  //         {x.age}
+  //     </div>
+  // });
+
+  console.log(overview);
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "overview-container"
-  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "module"
-  }, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, age), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Age")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-    className: "module"
-  }, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, country), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Country")));
-};
+  });
+}
 
 /* harmony default export */ __webpack_exports__["default"] = (UserOverview);
 
