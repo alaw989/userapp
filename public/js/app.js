@@ -112157,19 +112157,15 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 function AgeChart() {
-  // const females = props.data[0].females;
-  // const males = props.data[0].males;
-  // const year = props.data[0].year;
-  // const country = props.data[0].country;
-  // const age = props.data[0].age;
-  // const list = [
-  //     { name: "Females", pv: females, amt: females },
-  //     { name: "Males", pv: males, amt: males }
-  // ];
-  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(),
+  var _useState = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
       _useState2 = _slicedToArray(_useState, 2),
       userInfo = _useState2[0],
       setInfo = _useState2[1];
+
+  var _useState3 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({}),
+      _useState4 = _slicedToArray(_useState3, 2),
+      popInfo = _useState4[0],
+      setpopInfo = _useState4[1];
 
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     axios.get("/api/user").then(function (response) {
@@ -112178,26 +112174,56 @@ function AgeChart() {
       var country = response.data.country;
       var currentDate = new Date();
       var age = currentDate.getFullYear() - dateofBirth;
-      var url = "http://54.72.28.201:80/1.0/population/" + dateofBirth + "/" + 'aged' + "/" + age + "/";
-      var userInfo = response.data;
-      console.log(userInfo);
-      setInfo(userInfo);
+      var url = "http://54.72.28.201:80/1.0/population/" + dateofBirth + "/" + "aged" + "/" + age + "/";
+      setInfo(response.data);
       return axios.get(proxy_url + url);
     }).then(function (response) {
-      var popInfo = response.data;
-      return popInfo;
+      console.log(response.data);
+      var finalObj = response.data.map(function (x) {
+        return {
+          country: x.country,
+          uv: x.females,
+          pv: x.males
+        };
+      });
+      setpopInfo(finalObj);
     });
-  });
+  }, []); // const males = props.data[0].males;
+
+  var popAge = userInfo.dateofbirth;
+  var year = userInfo.year;
+  var country = userInfo.country;
+  var age = userInfo.age;
+  console.log(popInfo); // const list = [
+  //     { name: "Females", pv: females, amt: females },
+  //     { name: "Males", pv: males, amt: males }
+  // ];
+
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "graph-container"
-  }, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-    onClick: function onClick() {
-      return setCount(count + 1);
+  }, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, popAge), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["LineChart"], {
+    width: 900,
+    height: 300,
+    data: popInfo,
+    margin: {
+      top: 5,
+      right: 30,
+      left: 20,
+      bottom: 5
     }
-  }));
+  }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["CartesianGrid"], {
+    strokeDasharray: "1 1"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["XAxis"], {
+    dataKey: "country",
+    stroke: "#fff"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["YAxis"], {
+    stroke: "#fff"
+  }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Tooltip"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Line"], {
+    dataKey: "pv",
+    fill: "#8884d8"
+  })));
 }
 
-;
 /* harmony default export */ __webpack_exports__["default"] = (AgeChart);
 
 /***/ }),
@@ -112348,7 +112374,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var UserOverview = function UserOverview(props) {
-  console.log(props.data[0].year);
   var age = props.data[0].age;
   var country = props.data[0].country;
   return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -113085,8 +113110,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\userapp\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\userapp\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! c:\xampp\htdocs\userapp\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! c:\xampp\htdocs\userapp\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

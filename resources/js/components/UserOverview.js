@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 const UserOverview = props => {
-    console.log(props.data[0].year);
+   
     const age = props.data[0].age;
 
     const country = props.data[0].country;

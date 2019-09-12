@@ -140,7 +140,6 @@ html, body{
     -moz-box-shadow: 10px 10px 5px -8px rgba(0,0,0,0.75);
     box-shadow: 10px 10px 5px -8px rgba(0,0,0,0.75);
     border-radius: 3px;
-    width: 40%;
     display: flex;
     flex-direction: column;
     align-items: center;
