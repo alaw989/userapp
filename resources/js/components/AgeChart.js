@@ -1,4 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
+import Select from 'react-select'
 import {
     LineChart,
     Line,
@@ -10,7 +11,10 @@ import {
 } from "recharts";
 
 function AgeChart() {
-    const [userInfo, setInfo] = useState({});
+    const [userInfo, setInfo] = useState({
+        dateofbirth: "",
+        gender: ""
+    });
     const [popInfo, setpopInfo] = useState({});
 
     useEffect(() => {
@@ -34,34 +38,30 @@ function AgeChart() {
                 return axios.get(proxy_url + url);
             })
             .then(response => {
-               
                 const finalObj = response.data.map(x => ({
                     country: x.country,
-                    uv: x.females,
-                    pv: x.males
+                    females: x.females,
+                    males: x.males
                 }));
                 console.log(finalObj);
                 setpopInfo(finalObj);
             });
     }, []);
 
-    // const males = props.data[0].males;
-    const popAge = userInfo.dateofbirth;
-    const year = userInfo.year;
-    const country = userInfo.country;
-    const age = userInfo.age;
+    const dateofBirth = userInfo.dateofbirth.slice(6);
+    const currentDate = new Date();
+    const age = currentDate.getFullYear() - dateofBirth;
 
-
-
-    // const list = [
-    //     { name: "Females", pv: females, amt: females },
-    //     { name: "Males", pv: males, amt: males }
-    // ];
+    const options = [
+        {value: 'chocolate', label: 'Chocolate'}
+    ]
 
     return (
         <div className="graph-container">
-            {" "}
-            <p>{popAge}</p>
+            <p>
+                Population for all {userInfo.gender}s age {age} for every
+                country
+            </p>
             <LineChart
                 width={900}
                 height={300}
@@ -73,7 +73,7 @@ function AgeChart() {
                 <YAxis stroke="#fff" />
                 <Tooltip />
 
-                <Line dataKey="pv" fill="#8884d8" />
+                <Line dataKey="males" fill="#8884d8" />
             </LineChart>
         </div>
     );

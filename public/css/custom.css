@@ -100,6 +100,7 @@ html, body{
     display: flex;
     justify-content: flex-start;
     color: #fff;
+    padding: 0;
 }
 
 .body-wrap .view .overview-container h1 {
@@ -134,7 +135,7 @@ html, body{
 } */
 
 .graph-container {
-    margin-top: 50px;
+    margin-top: 15px;
     background-color: #C0C0C0;
     -webkit-box-shadow: 10px 10px 5px -8px rgba(0,0,0,0.75);
     -moz-box-shadow: 10px 10px 5px -8px rgba(0,0,0,0.75);
@@ -171,4 +172,8 @@ html, body{
     bottom: 0px;
     left: 0px;
     right: 0px;
+}
+
+.select-container {
+    width: 300px;
 }

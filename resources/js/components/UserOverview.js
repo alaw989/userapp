@@ -1,36 +1,42 @@
 import React, { Component, useState, useEffect } from "react";
 
 function UserOverview() {
-    const [[overview], setOverview] = useState({
-        age: "",
-        country: ""
-    });
+    const [overview, setOverview] = useState(
+        {
+            age: "",
+            country: ""
+        }
+    );
 
     useEffect(() => {
         axios.get("/api/user").then(response => {
             const dateofBirth = response.data.dateofbirth.slice(6);
             const currentDate = new Date();
             const age = currentDate.getFullYear() - dateofBirth;
-            console.log(response.data);
 
-            setOverview({
-                age: age,
-                country: response.data.country
-            });
+            setOverview(
+                {
+                    age: age,
+                    country: response.data.country
+                }
+            );
         });
     }, []);
 
-// const modules = overview.map(x => {
-//     <div className="module">
-//         {x.age}
-//     </div>
-// });
+    console.log(overview);
 
-console.log(overview);
+
     return (
-        <div className="overview-container">
-            {/* {modules} */}
-        </div>
+        <ul className="overview-container">
+            <li className="module">
+                <h1>Age</h1> 
+                {overview.age}
+            </li>
+            <li className="module">
+                <h1>Country</h1>
+                {overview.country}
+            </li>
+        </ul>
     );
 }
 

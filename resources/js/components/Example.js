@@ -5,6 +5,7 @@ import AgeChart from "./AgeChart";
 import UserInfo from "./UserInfo";
 import UserOverview from "./UserOverview";
 import WorldChart from "./WorldChart";
+import SelectField from "./SelectField";
 
 class Example extends Component {
     constructor(props) {
@@ -41,6 +42,10 @@ class Example extends Component {
                     <div className="col-sm-10 view"> 
                         <UserOverview data={this.state.popInfo} />
                         {/* <WorldChart data={this.state.popInfo} /> */}
+                        <div className="select-container">
+                        <SelectField />
+                        </div>
+                       
                         <AgeChart  />
                     </div>
                 </div>
