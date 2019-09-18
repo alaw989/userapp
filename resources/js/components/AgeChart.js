@@ -1,5 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
-import Select from 'react-select'
+import Select from "react-select";
 import {
     LineChart,
     Line,
@@ -15,7 +15,11 @@ function AgeChart() {
         dateofbirth: "",
         gender: ""
     });
-    const [popInfo, setpopInfo] = useState({});
+    const [popInfo, setpopInfo] = useState({
+        country: "",
+        pop: "",
+        fpop: ""
+    });
 
     useEffect(() => {
         axios
@@ -40,10 +44,9 @@ function AgeChart() {
             .then(response => {
                 const finalObj = response.data.map(x => ({
                     country: x.country,
-                    females: x.females,
-                    males: x.males
+                    pop: x.males, 
+                    fpop: x.females
                 }));
-                console.log(finalObj);
                 setpopInfo(finalObj);
             });
     }, []);
@@ -53,28 +56,43 @@ function AgeChart() {
     const age = currentDate.getFullYear() - dateofBirth;
 
     const options = [
-        {value: 'chocolate', label: 'Chocolate'}
-    ]
+        { value: "males", label: "Males" },
+        { value: "females", label: "Females" }
+    ];
+
+    console.log(popInfo);
+
+    function graphRender(e) {
+       if(e.value == "females") {
+           const pops = pop
+       }
+       return pops
+    }
 
     return (
-        <div className="graph-container">
-            <p>
-                Population for all {userInfo.gender}s age {age} for every
-                country
-            </p>
-            <LineChart
-                width={900}
-                height={300}
-                data={popInfo}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-            >
-                <CartesianGrid strokeDasharray="1 1" />
-                <XAxis dataKey="country" stroke="#fff" />
-                <YAxis stroke="#fff" />
-                <Tooltip />
+        <div className="selectgraph-container">
+            <div className="select-container">
+                <Select options={options} onChange={graphRender} />
+            </div>
+            <div className="graph-container">
+                <p>
+                    Population for all {userInfo.gender}s age {age} for every
+                    country
+                </p>
+                <LineChart
+                    width={900}
+                    height={300}
+                    data={popInfo}
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                >
+                    <CartesianGrid strokeDasharray="1 1" />
+                    <XAxis dataKey="country" stroke="#fff" />
+                    <YAxis stroke="#fff" />
+                    <Tooltip />
 
-                <Line dataKey="males" fill="#8884d8" />
-            </LineChart>
+                    <Line dataKey="pop" fill="#8884d8" />
+                </LineChart>
+            </div>
         </div>
     );
 }
