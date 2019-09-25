@@ -27,6 +27,7 @@
     "dependencies": {
         "jquery-mask-plugin": "^1.14.15",
         "react-select": "^3.0.4",
+        "react-spinners": "^0.6.1",
         "recharts": "^1.7.0",
         "select": "^1.1.2"
     }

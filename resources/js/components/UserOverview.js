@@ -23,18 +23,15 @@ function UserOverview() {
         });
     }, []);
 
-    console.log(overview);
-
-
     return (
         <ul className="overview-container">
             <li className="module">
-                <h1>Age</h1> 
-                {overview.age}
+                <p>Age: {overview.age}</p> 
+                
             </li>
             <li className="module">
-                <h1>Country</h1>
-                {overview.country}
+                <p>Country: {overview.country} </p>
+                
             </li>
         </ul>
     );

@@ -87,13 +87,12 @@ html, body{
 }
 
 .body-wrap .view {
-    padding: 60px;
+    padding: 0px 60px 60px 60px;
     background: #5c768c; /* Old browsers */
     background: -moz-linear-gradient(left,  #5c768c 0%, #24335b 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(left,  #5c768c 0%,#24335b 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to right,  #5c768c 0%,#24335b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5c768c', endColorstr='#24335b',GradientType=1 ); /* IE6-9 */
-
 }
 
 .body-wrap .view .overview-container {
@@ -107,48 +106,39 @@ html, body{
     font-weight: 600;
     font-size: 36px;
     margin: 0;
+    color: #fff;
 }
 
 .body-wrap .view .overview-container p {
     margin: 0;
+    color: #fff;
 }
 
 .body-wrap .view .overview-container .module {
-    background-color: #C1C1C1;
-    color: #363636;
+    background: rgba(0,0,0,0.42) url("/images/smiley.png") no-repeat scroll 0 0;
+    color: #fff;
     width: 260px;
     margin-right: 30px;
     text-align: center;
-    border-radius: 3px;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    padding: 20px;
-    -webkit-box-shadow: 10px 10px 5px -8px rgba(0,0,0,0.75);
-    -moz-box-shadow: 10px 10px 5px -8px rgba(0,0,0,0.75);
-    box-shadow: 10px 10px 5px -8px rgba(0,0,0,0.75);
+    flex-direction: row;
 }
-
-/* .recharts-surface {
-
-} */
 
 .graph-container {
     margin-top: 15px;
-    background-color: #C0C0C0;
-    -webkit-box-shadow: 10px 10px 5px -8px rgba(0,0,0,0.75);
-    -moz-box-shadow: 10px 10px 5px -8px rgba(0,0,0,0.75);
-    box-shadow: 10px 10px 5px -8px rgba(0,0,0,0.75);
+    background: rgba(0,0,0,0.42) url("/images/smiley.png") no-repeat scroll 0 0;
     border-radius: 3px;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 30px;
+    height: 100%;
 }
 
 .graph-container p {
-    color: #000;
+    color: #fff;
     font-weight: 600;
     text-align: center;
 }
@@ -176,4 +166,8 @@ html, body{
 
 .select-container {
     width: 300px;
+}
+
+.selectgraph-container {
+    height: 75vh;
 }

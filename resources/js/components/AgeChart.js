@@ -9,20 +9,27 @@ import {
     Tooltip,
     Legend
 } from "recharts";
+import ClipLoader from 'react-spinners/ClipLoader';
+
+
 
 function AgeChart() {
     const [userInfo, setInfo] = useState({
         dateofbirth: "",
-        gender: ""
+        gender: "",
+        age: ""
     });
+    const [loading, setLoading] = useState(false);
     const [popInfo, setpopInfo] = useState({
         country: "",
         pop: "",
         fpop: ""
     });
 
-    useEffect(() => {
-        axios
+    function getData(opts) {
+        setLoading(true);
+
+        return axios
             .get("/api/user")
             .then(response => {
                 const proxy_url = "https://cors-anywhere.herokuapp.com/";
@@ -38,60 +45,135 @@ function AgeChart() {
                     age +
                     "/";
 
-                setInfo(response.data);
+                console.log("user info:", response.data.dateofbirth);
+                if (!opts) {
+                    const userData = {
+                        dateofbirth: dateofBirth,
+                        gender: response.data.gender,
+                        age: age
+                    };
+                    setInfo(userData);
+                }
+                if (opts && opts.gender) {
+                    if (opts.gender === "females") {
+                        const userData = {
+                            dateofbirth: dateofBirth,
+                            gender: "female",
+                            age: age
+                        };
+                        setInfo(userData);
+                    }
+                    if (opts.gender === "males") {
+                        const userData = {
+                            dateofbirth: dateofBirth,
+                            gender: "male",
+                            age: age
+                        };
+                        setInfo(userData);
+                    }
+                }
+
                 return axios.get(proxy_url + url);
             })
             .then(response => {
-                const finalObj = response.data.map(x => ({
-                    country: x.country,
-                    pop: x.males, 
-                    fpop: x.females
-                }));
-                setpopInfo(finalObj);
-            });
-    }, []);
+                if (!opts) {
+                    const finalObj = response.data.map(x => ({
+                        country: x.country,
+                        pop: x.males
+                    }));
+                    setpopInfo(finalObj);
+                }
+                if (opts && opts.gender) {
+                    if (opts.gender === "females") {
+                        console.log("Filter by Females...", opts);
+                        const finalObj = response.data.map(x => ({
+                            country: x.country,
+                            pop: x.females
+                        }));
+                        setpopInfo(finalObj);
+                    } else if (opts.gender === "males") {
+                        const finalObj = response.data.map(x => ({
+                            country: x.country,
+                            pop: x.males
+                        }));
+                        setpopInfo(finalObj);
+                    }
+                }
 
-    const dateofBirth = userInfo.dateofbirth.slice(6);
-    const currentDate = new Date();
-    const age = currentDate.getFullYear() - dateofBirth;
+                // Done loading data
+
+                setLoading(false);
+            });
+    }
+
+    useEffect(() => {
+        getData();
+    }, []);
 
     const options = [
         { value: "males", label: "Males" },
         { value: "females", label: "Females" }
     ];
 
-    console.log(popInfo);
+    function graphRender(value, type) {
+        let opts = {
+            gender: null,
+            country: null
+        };
 
-    function graphRender(e) {
-       if(e.value == "females") {
-           const pops = pop
-       }
-       return pops
+        if (type === "gender") {
+            opts.gender = value.value;
+        }
+
+        if (type === "country") {
+            opts.country = value.value;
+        }
+
+        // Ajax call
+        getData(opts);
     }
+
+    console.log("user Data:", userInfo);
 
     return (
         <div className="selectgraph-container">
             <div className="select-container">
-                <Select options={options} onChange={graphRender} />
+                <Select
+                    options={options}
+                    onChange={(value, action) => {
+                        graphRender(value, "gender");
+                    }}
+                />
             </div>
             <div className="graph-container">
-                <p>
-                    Population for all {userInfo.gender}s age {age} for every
-                    country
-                </p>
-                <LineChart
-                    width={900}
-                    height={300}
-                    data={popInfo}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                >
-                    <CartesianGrid strokeDasharray="1 1" />
-                    <XAxis dataKey="country" stroke="#fff" />
-                    <YAxis stroke="#fff" />
-                    <Tooltip />
+                {loading ? (
+                    <div>        <ClipLoader
+                  
+                    sizeUnit={"px"}
+                    size={150}
+                    color={'#123abc'}
+                   
+                  /></div>
+                ) : (
+                    <div className="all-wrapper">
+                        <div>
+                        <p>Gender: {userInfo.gender} Year Born: {userInfo.age}</p>
+                        </div>
+                        <LineChart
+                            width={1000}
+                            height={450}
+                            data={popInfo}
+                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                        >
+                            <CartesianGrid strokeDasharray="1 1" />
+                            <XAxis dataKey="country" stroke="#fff" />
+                            <YAxis stroke="#fff" />
+                            <Tooltip />
 
-                    <Line dataKey="pop" fill="#8884d8" />
-                </LineChart>
+                            <Line dataKey="pop" fill="#8884d8" />
+                        </LineChart>
+                    </div>
+                )}
             </div>
         </div>
     );
