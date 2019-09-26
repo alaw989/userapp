@@ -151,7 +151,7 @@ function AgeChart() {
                   
                     sizeUnit={"px"}
                     size={150}
-                    color={'#123abc'}
+                    color={'#fff'}
                    
                   /></div>
                 ) : (
@@ -160,7 +160,7 @@ function AgeChart() {
                         <p>Gender: {userInfo.gender} Year Born: {userInfo.age}</p>
                         </div>
                         <LineChart
-                            width={1000}
+                            width={10000}
                             height={450}
                             data={popInfo}
                             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -170,7 +170,7 @@ function AgeChart() {
                             <YAxis stroke="#fff" />
                             <Tooltip />
 
-                            <Line dataKey="pop" fill="#8884d8" />
+                            <Line dataKey="pop" fill="#539C05" />
                         </LineChart>
                     </div>
                 )}

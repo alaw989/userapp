@@ -1,4 +1,5 @@
 import React, { Component, useState, useEffect } from "react";
+import CountryFlag from "./CountryFlag";
 
 function UserOverview() {
     const [overview, setOverview] = useState(
@@ -30,8 +31,8 @@ function UserOverview() {
                 
             </li>
             <li className="module">
-                <p>Country: {overview.country} </p>
-                
+                <p>Country:</p>
+                <CountryFlag/>
             </li>
         </ul>
     );

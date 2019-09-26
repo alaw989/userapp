@@ -126,6 +126,11 @@ html, body{
     flex-direction: row;
 }
 
+.selectgraph-container .css-yk16xz-control {
+    background: rgba(0,0,0,0.42) url("/images/smiley.png") no-repeat scroll 0 0;
+    border-radius: 0;
+}
+
 .graph-container {
     margin-top: 15px;
     background: rgba(0,0,0,0.42) url("/images/smiley.png") no-repeat scroll 0 0;
@@ -135,6 +140,9 @@ html, body{
     align-items: center;
     padding: 30px;
     height: 100%;
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .graph-container p {
@@ -143,8 +151,17 @@ html, body{
     text-align: center;
 }
 
+.graph-container .recharts-tooltip-label {
+    color: #000;
+}
+
 .button-container {
     height: 100%;
+}
+
+.all-wrapper {
+    position: absolute;
+    left: 60px;
 }
 
 .button-container .button { 
