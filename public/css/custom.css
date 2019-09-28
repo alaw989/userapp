@@ -110,7 +110,7 @@ html, body{
 }
 
 .body-wrap .view .overview-container p {
-    margin: 0;
+    margin: 0 5px 0 0;
     color: #fff;
 }
 

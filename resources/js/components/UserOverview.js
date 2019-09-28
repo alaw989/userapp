@@ -28,10 +28,9 @@ function UserOverview() {
         <ul className="overview-container">
             <li className="module">
                 <p>Age: {overview.age}</p> 
-                
             </li>
             <li className="module">
-                <p>Country:</p>
+                <p>Country: </p>
                 <CountryFlag/>
             </li>
         </ul>
