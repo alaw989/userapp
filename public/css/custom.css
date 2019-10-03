@@ -57,8 +57,6 @@
     padding: 20px;
 }
 
-
-
 html, body{
     margin: 0;
     padding: 0;
@@ -161,7 +159,7 @@ html, body{
 
 .all-wrapper {
     position: absolute;
-    left: 60px;
+    /* left: 60px; */
 }
 
 .button-container .button { 
@@ -187,4 +185,8 @@ html, body{
 
 .selectgraph-container {
     height: 75vh;
+}
+
+.recharts-tooltip-wrapper:hover {
+    visibility: visible !important;
 }

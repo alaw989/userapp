@@ -1,17 +1,14 @@
 import React, { Component, useState, useEffect } from "react";
 import Select from "react-select";
+import ClipLoader from "react-spinners/ClipLoader";
 import {
-    LineChart,
-    Line,
+    BarChart,
+    Bar,
     XAxis,
     YAxis,
     CartesianGrid,
-    Tooltip,
-    Legend
+    Tooltip
 } from "recharts";
-import ClipLoader from 'react-spinners/ClipLoader';
-
-
 
 function AgeChart() {
     const [userInfo, setInfo] = useState({
@@ -20,11 +17,13 @@ function AgeChart() {
         age: ""
     });
     const [loading, setLoading] = useState(false);
-    const [popInfo, setpopInfo] = useState({
-        country: "",
-        pop: "",
-        fpop: ""
-    });
+    const [popInfo, setpopInfo] = useState([
+        {
+            country: "",
+            pop: null,
+            fpop: null
+        }
+    ]);
 
     function getData(opts) {
         setLoading(true);
@@ -45,7 +44,6 @@ function AgeChart() {
                     age +
                     "/";
 
-                console.log("user info:", response.data.dateofbirth);
                 if (!opts) {
                     const userData = {
                         dateofbirth: dateofBirth,
@@ -76,25 +74,31 @@ function AgeChart() {
                 return axios.get(proxy_url + url);
             })
             .then(response => {
+                const dataFiltered = response.data.filter(
+                    x => x.males > 500000 && x.females > 500000
+                );
+
                 if (!opts) {
-                    const finalObj = response.data.map(x => ({
+                    const finalObj = dataFiltered.map(x => ({
                         country: x.country,
-                        pop: x.males
+                        pop: x.males,
+                        fpop: x.females
                     }));
                     setpopInfo(finalObj);
                 }
                 if (opts && opts.gender) {
                     if (opts.gender === "females") {
-                        console.log("Filter by Females...", opts);
-                        const finalObj = response.data.map(x => ({
+                        const finalObj = dataFiltered.map(x => ({
                             country: x.country,
-                            pop: x.females
+                            pop: x.females,
+                            fpop: x.males
                         }));
                         setpopInfo(finalObj);
                     } else if (opts.gender === "males") {
-                        const finalObj = response.data.map(x => ({
+                        const finalObj = dataFiltered.map(x => ({
                             country: x.country,
-                            pop: x.males
+                            pop: x.males,
+                            fpop: x.females
                         }));
                         setpopInfo(finalObj);
                     }
@@ -132,9 +136,11 @@ function AgeChart() {
         // Ajax call
         getData(opts);
     }
+    console.log(popInfo);
 
-    console.log("user Data:", userInfo);
-
+    function toggleHover() {
+        console.log('hey')
+    }
     return (
         <div className="selectgraph-container">
             <div className="select-container">
@@ -147,20 +153,20 @@ function AgeChart() {
             </div>
             <div className="graph-container">
                 {loading ? (
-                    <div>        <ClipLoader
-                  
-                    sizeUnit={"px"}
-                    size={150}
-                    color={'#fff'}
-                   
-                  /></div>
+                    <div>
+                        {" "}
+                        <ClipLoader sizeUnit={"px"} size={150} color={"#fff"} />
+                    </div>
                 ) : (
                     <div className="all-wrapper">
                         <div>
-                        <p>Gender: {userInfo.gender} Year Born: {userInfo.age}</p>
+                            <p>
+                                Gender: {userInfo.gender} Year Born:{" "}
+                                {userInfo.age}
+                            </p>
                         </div>
-                        <LineChart
-                            width={10000}
+                        {/* <LineChart
+                            width={1000}
                             height={450}
                             data={popInfo}
                             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -171,7 +177,23 @@ function AgeChart() {
                             <Tooltip />
 
                             <Line dataKey="pop" fill="#539C05" />
-                        </LineChart>
+                        </LineChart> */}
+                        <BarChart 
+                            width={1100}
+                            height={300}
+                            data={popInfo}
+                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                        >
+                           
+                            <CartesianGrid strokeDasharray="1 1" />
+                            <XAxis dataKey="country" stroke="#fff" />
+                            <YAxis stroke="#fff" />
+                            <Tooltip  wrapperStyle={divStyle}/>
+                            
+
+                            <Bar dataKey="fpop" stackId="a" fill="#8884d8" />
+                            <Bar dataKey="pop" stackId="a" fill="#82ca9d" />
+                        </BarChart>
                     </div>
                 )}
             </div>
@@ -180,3 +202,8 @@ function AgeChart() {
 }
 
 export default AgeChart;
+
+const divStyle = {
+    color: 'blue',
+  
+  };
